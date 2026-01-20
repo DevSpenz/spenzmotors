@@ -52,7 +52,7 @@ export default function LoginClient() {
         router.push(callbackUrl);
         router.refresh();
       }
-    } catch {
+    } catch (error) {
       setError("An unexpected error occurred");
       toast.error("Login error", {
         description: "Please try again later",
@@ -78,8 +78,59 @@ export default function LoginClient() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* form unchanged */}
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="admin@spenzamotors.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pl-10"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="pl-10"
+                  required
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="flex items-center gap-2 text-sm text-destructive bg-destructive/10 p-3 rounded-md">
+                <AlertCircle className="h-4 w-4" />
+                {error}
+              </div>
+            )}
+
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Signing in..." : "Sign In"}
+            </Button>
           </form>
+
+          <div className="mt-6 space-y-2 text-sm text-muted-foreground text-center">
+            <p>Default credentials:</p>
+            <p className="font-mono text-xs bg-muted p-2 rounded">
+              Email: admin@spenzamotors.com
+            </p>
+            <p className="font-mono text-xs bg-muted p-2 rounded">
+              Password: admin123
+            </p>
+          </div>
 
           <div className="mt-6 text-center">
             <Link href="/" className="text-sm text-primary hover:underline">
