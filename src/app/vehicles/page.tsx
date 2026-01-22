@@ -89,8 +89,8 @@ export default function VehiclesPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between px-4">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+        <div className="w-full mx-auto max-w-7xl flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2">
             <Link href="/">
               <Button variant="ghost" size="sm" className="gap-2">
@@ -101,7 +101,9 @@ export default function VehiclesPage() {
           </div>
           <div className="flex items-center gap-2">
             <Car className="h-6 w-6" />
-            <span className="text-xl font-bold tracking-tight">Spenza Motors</span>
+            <span className="text-xl font-bold tracking-tight">
+              Spenza Motors
+            </span>
           </div>
         </div>
       </header>
@@ -113,7 +115,8 @@ export default function VehiclesPage() {
             Our Vehicle Collection
           </h1>
           <p className="text-xl opacity-90 max-w-2xl mx-auto">
-            Explore our premium selection of vehicles, each rigorously inspected and maintained to highest standards
+            Explore our premium selection of vehicles, each rigorously inspected
+            and maintained to highest standards
           </p>
         </div>
       </section>
@@ -144,7 +147,7 @@ export default function VehiclesPage() {
               className="flex items-center gap-2"
             >
               <SlidersHorizontal className="h-4 w-4" />
-              {showFilters ? 'Hide Filters' : 'Show Filters'}
+              {showFilters ? "Hide Filters" : "Show Filters"}
             </Button>
             <div className="text-sm text-muted-foreground">
               Showing {filteredVehicles.length} of {vehicles.length} vehicles
@@ -157,14 +160,18 @@ export default function VehiclesPage() {
               {/* Category Filter */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Category</label>
-                <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={loading}>
+                <Select
+                  value={selectedCategory}
+                  onValueChange={setSelectedCategory}
+                  disabled={loading}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="All Categories" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((cat) => (
                       <SelectItem key={cat} value={cat}>
-                        {cat === 'all' ? 'All Categories' : cat}
+                        {cat === "all" ? "All Categories" : cat}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -174,14 +181,18 @@ export default function VehiclesPage() {
               {/* Fuel Type Filter */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Fuel Type</label>
-                <Select value={selectedFuelType} onValueChange={setSelectedFuelType} disabled={loading}>
+                <Select
+                  value={selectedFuelType}
+                  onValueChange={setSelectedFuelType}
+                  disabled={loading}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="All Fuel Types" />
                   </SelectTrigger>
                   <SelectContent>
                     {fuelTypes.map((fuel) => (
                       <SelectItem key={fuel} value={fuel}>
-                        {fuel === 'all' ? 'All Fuel Types' : fuel}
+                        {fuel === "all" ? "All Fuel Types" : fuel}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -191,7 +202,8 @@ export default function VehiclesPage() {
               {/* Price Range Filter */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">
-                  Price Range: {formatPrice(priceRange[0])} - {formatPrice(priceRange[1])}
+                  Price Range: {formatPrice(priceRange[0])} -{" "}
+                  {formatPrice(priceRange[1])}
                 </label>
                 <Slider
                   min={0}
@@ -209,10 +221,10 @@ export default function VehiclesPage() {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    setSearchTerm('')
-                    setSelectedCategory('all')
-                    setSelectedFuelType('all')
-                    setPriceRange([0, 100000])
+                    setSearchTerm("");
+                    setSelectedCategory("all");
+                    setSelectedFuelType("all");
+                    setPriceRange([0, 100000]);
                   }}
                   className="w-full md:w-auto"
                   disabled={loading}
@@ -237,16 +249,20 @@ export default function VehiclesPage() {
             <Card className="text-center py-12">
               <CardContent>
                 <Car className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">No vehicles found</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  No vehicles found
+                </h3>
                 <p className="text-muted-foreground mb-6">
                   Try adjusting your filters or search terms
                 </p>
-                <Button onClick={() => {
-                  setSearchTerm('')
-                  setSelectedCategory('all')
-                  setSelectedFuelType('all')
-                  setPriceRange([0, 100000])
-                }}>
+                <Button
+                  onClick={() => {
+                    setSearchTerm("");
+                    setSelectedCategory("all");
+                    setSelectedFuelType("all");
+                    setPriceRange([0, 100000]);
+                  }}
+                >
                   Clear Filters
                 </Button>
               </CardContent>
@@ -254,7 +270,10 @@ export default function VehiclesPage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredVehicles.map((vehicle) => (
-                <Card key={vehicle.id} className="overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col">
+                <Card
+                  key={vehicle.id}
+                  className="overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col"
+                >
                   <div className="relative h-48 overflow-hidden">
                     <img
                       src={vehicle.image}
@@ -264,7 +283,9 @@ export default function VehiclesPage() {
                     <div className="absolute top-4 left-4 flex gap-2">
                       <Badge variant="secondary">{vehicle.category}</Badge>
                       {vehicle.isNew && (
-                        <Badge className="bg-primary text-primary-foreground">New</Badge>
+                        <Badge className="bg-primary text-primary-foreground">
+                          New
+                        </Badge>
                       )}
                     </div>
                     {vehicle.popular && (
@@ -275,7 +296,9 @@ export default function VehiclesPage() {
                     )}
                   </div>
                   <CardHeader className="flex-1">
-                    <CardTitle className="text-lg line-clamp-1">{vehicle.name}</CardTitle>
+                    <CardTitle className="text-lg line-clamp-1">
+                      {vehicle.name}
+                    </CardTitle>
                     <CardDescription className="flex items-center gap-2 text-base">
                       <span className="font-semibold text-primary text-lg">
                         {formatPrice(vehicle.price)}
@@ -291,15 +314,21 @@ export default function VehiclesPage() {
                     <div className="grid grid-cols-3 gap-2 text-xs">
                       <div className="text-center p-2 bg-muted/30 rounded">
                         <Fuel className="h-4 w-4 mx-auto mb-1" />
-                        <div className="font-semibold">{vehicle.specs.fuelEconomy}</div>
+                        <div className="font-semibold">
+                          {vehicle.specs.fuelEconomy}
+                        </div>
                       </div>
                       <div className="text-center p-2 bg-muted/30 rounded">
                         <Gauge className="h-4 w-4 mx-auto mb-1" />
-                        <div className="font-semibold">{vehicle.specs.hp} HP</div>
+                        <div className="font-semibold">
+                          {vehicle.specs.hp} HP
+                        </div>
                       </div>
                       <div className="text-center p-2 bg-muted/30 rounded">
                         <Shield className="h-4 w-4 mx-auto mb-1" />
-                        <div className="font-semibold">{vehicle.specs.acceleration}</div>
+                        <div className="font-semibold">
+                          {vehicle.specs.acceleration}
+                        </div>
                       </div>
                     </div>
 
@@ -318,7 +347,10 @@ export default function VehiclesPage() {
                     </div>
 
                     {/* View Details Button */}
-                    <Link href={`/vehicles/${vehicle.id}`} className="block w-full">
+                    <Link
+                      href={`/vehicles/${vehicle.id}`}
+                      className="block w-full"
+                    >
                       <Button className="w-full">
                         View Details
                         <ArrowLeft className="ml-2 h-4 w-4 rotate-180" />
@@ -332,5 +364,5 @@ export default function VehiclesPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

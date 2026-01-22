@@ -1,21 +1,22 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-// GET single vehicle by ID
+// GET single vehicle
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
+
     const vehicle = await db.vehicle.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!vehicle) {
       return NextResponse.json({ error: "Vehicle not found" }, { status: 404 });
     }
 
-    // Transform data to match frontend format
     const transformedVehicle = {
       ...vehicle,
       features: vehicle.features ? JSON.parse(vehicle.features) : [],
@@ -48,12 +49,12 @@ export async function GET(
 // PUT - Update vehicle
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
 
-    // Transform frontend data to database format
     const updateData: any = {
       name: body.name,
       category: body.category,
@@ -77,19 +78,16 @@ export async function PUT(
       colors: JSON.stringify(body.colors || []),
       description: body.description,
       gallery: body.gallery ? JSON.stringify(body.gallery) : null,
-      popular: body.popular !== undefined ? body.popular : undefined,
-      isNew: body.isNew !== undefined ? body.isNew : undefined,
+      popular: body.popular,
+      isNew: body.isNew,
     };
 
-    // Remove undefined values
-    Object.keys(updateData).forEach((key) => {
-      if (updateData[key] === undefined) {
-        delete updateData[key];
-      }
-    });
+    Object.keys(updateData).forEach(
+      (key) => updateData[key] === undefined && delete updateData[key],
+    );
 
     const vehicle = await db.vehicle.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData,
     });
 
@@ -106,11 +104,13 @@ export async function PUT(
 // DELETE - Remove vehicle
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const { id } = await params;
+
     await db.vehicle.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ success: true });
